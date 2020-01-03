@@ -53,30 +53,31 @@ function mergeSortHelper(
   animationArray
 ) {
   if (startIndex === endIndex) return;
-
-  const middleIndex = Math.floor((startIndex + endIndex) / 2);
-  mergeSortHelper(
-    auxiliaryArray,
-    startIndex,
-    middleIndex,
-    array,
-    animationArray
-  );
-  mergeSortHelper(
-    auxiliaryArray,
-    middleIndex + 1,
-    endIndex,
-    array,
-    animationArray
-  );
-  doMerge(
-    array,
-    startIndex,
-    middleIndex,
-    endIndex,
-    auxiliaryArray,
-    animationArray
-  );
+  if (startIndex < endIndex) {
+    const middleIndex = Math.floor((startIndex + endIndex) / 2);
+    mergeSortHelper(
+      auxiliaryArray,
+      startIndex,
+      middleIndex,
+      array,
+      animationArray
+    );
+    mergeSortHelper(
+      auxiliaryArray,
+      middleIndex + 1,
+      endIndex,
+      array,
+      animationArray
+    );
+    doMerge(
+      array,
+      startIndex,
+      middleIndex,
+      endIndex,
+      auxiliaryArray,
+      animationArray
+    );
+  }
 }
 
 function doMerge(
@@ -95,8 +96,8 @@ function doMerge(
     animationArray.push([i, j]); // Comparing value and pushing them to change their color
     animationArray.push([i, j]); // Comparing value and pushing them again to revert their color
     if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-      animationArray.push([k, auxiliaryArray[i]]); // Overwrite index k in array with index i in auxiliary array
-      array[k++] = auxiliaryArray[i++];
+      animationArray.push([k, auxiliaryArray[i]]);
+      array[k++] = auxiliaryArray[i++]; // Overwrite index k value in original array with index i value in auxiliary array
     } else {
       animationArray.push([k, auxiliaryArray[j]]);
       array[k++] = auxiliaryArray[j++];

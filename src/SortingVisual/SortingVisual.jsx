@@ -31,7 +31,7 @@ export default class SortingVisual extends Component {
 
     for (let i = 0; i < animationArray.length; i++) {
       const arrayBar = document.getElementsByClassName("array-bar");
-      const isColorChange = i % 3 !== 2;
+      const isColorChange = i % 3 !== 2; // New animation every 3 values
       if (isColorChange) {
         const [barOneIndex, barTwoIndex] = animationArray[i];
         const barOneStyle = arrayBar[barOneIndex].style;
