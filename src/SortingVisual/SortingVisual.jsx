@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./SortingVisual.css";
 import { mergeSortAnimation } from "../SortingAlgorithms/mergeSort.js";
+import { bubbleSortAnimation } from "../SortingAlgorithms/bubbleSort.js";
 
 const ANIMATION_SPEED = 10;
 const PRIMARY_COLOR = "orange";
@@ -20,7 +21,7 @@ export default class SortingVisual extends Component {
 
   resetArray() {
     const array = [];
-    for (let i = 0; i < 250; i++) {
+    for (let i = 0; i < 100; i++) {
       array.push(randomIntInterval(5, 500));
     }
     this.setState({ array });
@@ -31,7 +32,7 @@ export default class SortingVisual extends Component {
 
     for (let i = 0; i < animationArray.length; i++) {
       const arrayBar = document.getElementsByClassName("array-bar");
-      const isColorChange = i % 3 !== 2; // New animation every 3 values
+      const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIndex, barTwoIndex] = animationArray[i];
         const barOneStyle = arrayBar[barOneIndex].style;
@@ -55,7 +56,33 @@ export default class SortingVisual extends Component {
 
   quickSort() {}
 
-  bubbleSort() {}
+  bubbleSort() {
+    const animationArray = bubbleSortAnimation(this.state.array);
+
+    for (let i = 0; i < animationArray.length; i++) {
+      const arrayBar = document.getElementsByClassName("array-bar");
+      const isColorChange = i % 4 === 0 || i % 4 === 1;
+      if (isColorChange) {
+        const [barOneIndex, barTwoIndex] = animationArray[i];
+        const barOneStyle = arrayBar[barOneIndex].style;
+        const barTwoStyle = arrayBar[barTwoIndex].style;
+        const color = i % 4 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * ANIMATION_SPEED);
+      } else {
+        const [barOneIndex, newHeight] = animationArray[i];
+        if (barOneIndex === -1) {
+          continue;
+        }
+        const barOneStyle = arrayBar[barOneIndex].style;
+        setTimeout(() => {
+          barOneStyle.height = `${newHeight}px`;
+        }, i * ANIMATION_SPEED);
+      }
+    }
+  }
 
   testAlgorithm() {
     for (let i = 0; i < 100; i++) {
@@ -64,8 +91,8 @@ export default class SortingVisual extends Component {
         array.push(randomIntInterval(1, 1000));
       }
       const jsSortedArray = array.slice().sort((a, b) => a - b);
-      const mergeSortArray = mergeSortAnimation(array.slice());
-      console.log(arraysAreEqual(jsSortedArray, mergeSortArray));
+      const bubbleSortArray = bubbleSortAnimation(array.slice());
+      console.log(arraysAreEqual(jsSortedArray, bubbleSortArray));
     }
   }
 

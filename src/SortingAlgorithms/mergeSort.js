@@ -53,31 +53,29 @@ function mergeSortHelper(
   animationArray
 ) {
   if (startIndex === endIndex) return;
-  if (startIndex < endIndex) {
-    const middleIndex = Math.floor((startIndex + endIndex) / 2);
-    mergeSortHelper(
-      auxiliaryArray,
-      startIndex,
-      middleIndex,
-      array,
-      animationArray
-    );
-    mergeSortHelper(
-      auxiliaryArray,
-      middleIndex + 1,
-      endIndex,
-      array,
-      animationArray
-    );
-    doMerge(
-      array,
-      startIndex,
-      middleIndex,
-      endIndex,
-      auxiliaryArray,
-      animationArray
-    );
-  }
+  const middleIndex = Math.floor((startIndex + endIndex) / 2);
+  mergeSortHelper(
+    auxiliaryArray,
+    startIndex,
+    middleIndex,
+    array,
+    animationArray
+  );
+  mergeSortHelper(
+    auxiliaryArray,
+    middleIndex + 1,
+    endIndex,
+    array,
+    animationArray
+  );
+  doMerge(
+    array,
+    startIndex,
+    middleIndex,
+    endIndex,
+    auxiliaryArray,
+    animationArray
+  );
 }
 
 function doMerge(
@@ -93,7 +91,8 @@ function doMerge(
     j = middleIndex + 1;
 
   while (i <= middleIndex && j <= endIndex) {
-    animationArray.push([i, j]); // Comparing value and pushing them to change their color
+    animationArray.push([i, j]); // Comparing value and pushing them to change their color\
+    //console.log(i);
     animationArray.push([i, j]); // Comparing value and pushing them again to revert their color
     if (auxiliaryArray[i] <= auxiliaryArray[j]) {
       animationArray.push([k, auxiliaryArray[i]]);
