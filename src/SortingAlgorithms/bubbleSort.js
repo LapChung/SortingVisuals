@@ -11,13 +11,15 @@ function bubbleSort(auxiliaryArray, animationArray) {
 
   for (let i = 0; i < n - 1; i++) {
     for (let j = 0; j < n - i - 1; j++) {
-      animationArray.push([j, j + 1]);
-      animationArray.push([j, j + 1]);
+      animationArray.push([j, j + 1]); // compare the two value and change the color
+      animationArray.push([j, j + 1]); // revert their color
       if (auxiliaryArray[j] > auxiliaryArray[j + 1]) {
+        // Swap the two values and change their color
         animationArray.push([j, auxiliaryArray[j + 1]]);
         animationArray.push([j + 1, auxiliaryArray[j]]);
         swap(auxiliaryArray, j, j + 1);
       } else {
+        // Keep same color
         animationArray.push([-1, -1]);
         animationArray.push([-1, -1]);
       }
