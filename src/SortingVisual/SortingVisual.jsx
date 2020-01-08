@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import "./SortingVisual.css";
 import { mergeSortAnimation } from "../SortingAlgorithms/mergeSort.js";
 import { bubbleSortAnimation } from "../SortingAlgorithms/bubbleSort.js";
-
-const ANIMATION_SPEED = 10;
-const PRIMARY_COLOR = "orange";
+import { quickSortAnimation } from "../SortingAlgorithms/quickSort.js";
+import { selectionSortAnimation } from "../SortingAlgorithms/selectionSort.js";
+const ANIMATION_SPEED = 50;
+const PRIMARY_COLOR = "turquoise";
 const SECONDARY_COLOR = "black";
 
 export default class SortingVisual extends Component {
@@ -32,7 +33,7 @@ export default class SortingVisual extends Component {
 
     for (let i = 0; i < animationArray.length; i++) {
       const arrayBar = document.getElementsByClassName("array-bar");
-      const isColorChange = i % 3 !== 2;
+      const isColorChange = i % 3 !== 2; // Every 3 index is new set of animation
       if (isColorChange) {
         const [barOneIndex, barTwoIndex] = animationArray[i];
         const barOneStyle = arrayBar[barOneIndex].style;
@@ -52,6 +53,38 @@ export default class SortingVisual extends Component {
     }
   }
 
+  selectionSort() {
+    const animationArray = selectionSortAnimation(this.state.array);
+
+    for (let i = 0; i < animationArray.length; i++) {
+      const arrayBar = document.getElementsByClassName("array-bar");
+      // Add an extra entry in array to determine the current smallest value
+      const isColorChange =
+        animationArray[i][0] === "isSmallestValue" ||
+        animationArray[i][0] === "isNewSmallestValue?"; // We want to compare the current smallest value with the next index
+      if (isColorChange) {
+        const [smallestValue, barOneIndex, barTwoIndex] = animationArray[i];
+        const barOneStyle = arrayBar[barOneIndex].style;
+        const barTwoStyle = arrayBar[barTwoIndex].style;
+        // Keep the smallest value the same color while incrementing until smaller value is found
+        const color =
+          animationArray[i][0] === "isSmallestValue"
+            ? SECONDARY_COLOR
+            : PRIMARY_COLOR; //
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * ANIMATION_SPEED);
+      } else {
+        setTimeout(() => {
+          const [smallestValue, barOneIndex, newHeight] = animationArray[i];
+          const barOneStyle = arrayBar[barOneIndex].style;
+          barOneStyle.height = `${newHeight}px`;
+        }, i * ANIMATION_SPEED);
+      }
+    }
+  }
+
   heapSort() {}
 
   quickSort() {}
@@ -61,7 +94,7 @@ export default class SortingVisual extends Component {
 
     for (let i = 0; i < animationArray.length; i++) {
       const arrayBar = document.getElementsByClassName("array-bar");
-      const isColorChange = i % 4 === 0 || i % 4 === 1;
+      const isColorChange = i % 4 === 0 || i % 4 === 1; // every 4 index is a new set of animations
       if (isColorChange) {
         const [barOneIndex, barTwoIndex] = animationArray[i];
         const barOneStyle = arrayBar[barOneIndex].style;
@@ -91,8 +124,8 @@ export default class SortingVisual extends Component {
         array.push(randomIntInterval(1, 1000));
       }
       const jsSortedArray = array.slice().sort((a, b) => a - b);
-      const bubbleSortArray = bubbleSortAnimation(array.slice());
-      console.log(arraysAreEqual(jsSortedArray, bubbleSortArray));
+      const quickSortArray = quickSortAnimation(array.slice());
+      console.log(arraysAreEqual(jsSortedArray, quickSortArray));
     }
   }
 
@@ -113,6 +146,7 @@ export default class SortingVisual extends Component {
         <button onClick={() => this.heapSort()}>Heap Sort</button>
         <button onClick={() => this.quickSort()}>Quick Sort</button>
         <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
+        <button onClick={() => this.selectionSort()}>Selection Sort</button>
         <button onClick={() => this.testAlgorithm()}>TEST!</button>
       </div>
     );
