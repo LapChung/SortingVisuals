@@ -4,7 +4,8 @@ import { mergeSortAnimation } from "../SortingAlgorithms/mergeSort.js";
 import { bubbleSortAnimation } from "../SortingAlgorithms/bubbleSort.js";
 import { quickSortAnimation } from "../SortingAlgorithms/quickSort.js";
 import { selectionSortAnimation } from "../SortingAlgorithms/selectionSort.js";
-const ANIMATION_SPEED = 50;
+
+const ANIMATION_SPEED = 1;
 const PRIMARY_COLOR = "turquoise";
 const SECONDARY_COLOR = "black";
 
@@ -70,7 +71,7 @@ export default class SortingVisual extends Component {
         const color =
           animationArray[i][0] === "isSmallestValue"
             ? SECONDARY_COLOR
-            : PRIMARY_COLOR; //
+            : PRIMARY_COLOR;
         setTimeout(() => {
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
@@ -87,7 +88,32 @@ export default class SortingVisual extends Component {
 
   heapSort() {}
 
-  quickSort() {}
+  quickSort() {
+    const animationArray = quickSortAnimation(this.state.array);
+
+    for (let i = 0; i < animationArray.length; i++) {
+      const arrayBar = document.getElementsByClassName("array-bar");
+      const isColorChange = i % 6 === 0 || i % 6 === 1; // every 6 index is a new set of animations
+      if (isColorChange) {
+        const [barOneIndex, barTwoIndex] = animationArray[i];
+        if (barOneIndex === -1) continue;
+        const barOneStyle = arrayBar[barOneIndex].style;
+        const barTwoStyle = arrayBar[barTwoIndex].style;
+        const color = i % 6 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * ANIMATION_SPEED);
+      } else {
+        const [barOneIndex, newHeight] = animationArray[i];
+        if (barOneIndex === -1) continue;
+        const barOneStyle = arrayBar[barOneIndex].style;
+        setTimeout(() => {
+          barOneStyle.height = `${newHeight}px`;
+        }, i * ANIMATION_SPEED);
+      }
+    }
+  }
 
   bubbleSort() {
     const animationArray = bubbleSortAnimation(this.state.array);
@@ -106,9 +132,7 @@ export default class SortingVisual extends Component {
         }, i * ANIMATION_SPEED);
       } else {
         const [barOneIndex, newHeight] = animationArray[i];
-        if (barOneIndex === -1) {
-          continue;
-        }
+        if (barOneIndex === -1) continue;
         const barOneStyle = arrayBar[barOneIndex].style;
         setTimeout(() => {
           barOneStyle.height = `${newHeight}px`;
