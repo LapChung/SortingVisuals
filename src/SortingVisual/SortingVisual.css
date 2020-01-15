@@ -2,10 +2,11 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  margin-top: 5vh;
 }
 
 .array-bar {
-  width: 2px;
+  width: 5px;
   background-color: turquoise;
   display: inline-block;
   margin: 0 1px; /** space between each bar*/

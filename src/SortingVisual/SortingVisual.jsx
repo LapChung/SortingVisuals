@@ -5,6 +5,13 @@ import { bubbleSortAnimation } from "../SortingAlgorithms/bubbleSort.js";
 import { quickSortAnimation } from "../SortingAlgorithms/quickSort.js";
 import { selectionSortAnimation } from "../SortingAlgorithms/selectionSort.js";
 
+window.onresize = function(event) {
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  let arrayBars = parseInt((width - 200) / 8);
+  this.location.reload();
+};
+
 const ANIMATION_SPEED = 1;
 const PRIMARY_COLOR = "turquoise";
 const SECONDARY_COLOR = "black";
@@ -23,7 +30,7 @@ export default class SortingVisual extends Component {
 
   resetArray() {
     const array = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < parseInt((window.innerWidth - 200) / 8); i++) {
       array.push(randomIntInterval(5, 500));
     }
     this.setState({ array });
@@ -165,13 +172,15 @@ export default class SortingVisual extends Component {
             style={{ height: `${value}px` }}
           ></div>
         ))}
-        <button onClick={() => this.resetArray()}>Generate Array</button>
-        <button onClick={() => this.mergeSort()}>Merge Sort</button>
-        <button onClick={() => this.heapSort()}>Heap Sort</button>
-        <button onClick={() => this.quickSort()}>Quick Sort</button>
-        <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
-        <button onClick={() => this.selectionSort()}>Selection Sort</button>
-        <button onClick={() => this.testAlgorithm()}>TEST!</button>
+        <div className="button-container">
+          <button onClick={() => this.resetArray()}>Generate Array</button>
+          <button onClick={() => this.mergeSort()}>Merge Sort</button>
+          <button onClick={() => this.heapSort()}>Heap Sort</button>
+          <button onClick={() => this.quickSort()}>Quick Sort</button>
+          <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
+          <button onClick={() => this.selectionSort()}>Selection Sort</button>
+          <button onClick={() => this.testAlgorithm()}>TEST!</button>
+        </div>
       </div>
     );
   }
